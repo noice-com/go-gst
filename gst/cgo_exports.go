@@ -264,12 +264,13 @@ func goLogFunction(
 			obj = glib.TransferNone(unsafe.Pointer(object))
 		}
 		f(
+			&DebugCategory{ptr: category},
 			DebugLevel(level),
 			C.GoString(file),
 			C.GoString(function),
 			int(line),
 			obj,
-			C.GoString(C.gst_debug_message_get(message)),
+			&DebugMessage{ptr: message},
 		)
 	}
 }

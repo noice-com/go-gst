@@ -192,13 +192,33 @@ func (d *DebugCategory) LogMemDump(message string, obj ...*Object) {
 	d.logDepth(LevelMemDump, message, 2, getLogObj(obj...))
 }
 
+// GetName returns the name of a debug category.
+func (d *DebugCategory) GetName() string {
+	return C.GoString(C.gst_debug_category_get_name(d.ptr))
+}
+
+type DebugMessage struct {
+	ptr *C.GstDebugMessage
+}
+
+// Get returns the string representation of a GstDebugMessage.
+func (d *DebugMessage) Get() string {
+	return C.GoString(C.gst_debug_message_get(d.ptr))
+}
+
+// GetId returns the id of the object that emitted this message. Can be empty.
+func (d *DebugMessage) GetId() string {
+	return C.GoString(C.gst_debug_message_get_id(d.ptr))
+}
+
 type LogFunction = func(
+	category *DebugCategory,
 	level DebugLevel,
 	file string,
 	function string,
 	line int,
 	object *glib.Object,
-	message string,
+	message *DebugMessage,
 )
 
 var (
