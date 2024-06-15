@@ -261,7 +261,7 @@ func goLogFunction(
 	if f != nil {
 		var obj *glib.Object
 		if object != nil {
-			obj = glib.TransferNone(unsafe.Pointer(object))
+			obj = glib.TransferNone(unsafe.Pointer(object)).Ref()
 		}
 		f(
 			&DebugCategory{ptr: category},
